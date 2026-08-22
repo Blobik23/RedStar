@@ -19,9 +19,8 @@
     - map: [ "enum.HumanoidVisualLayers.LLeg" ]
 
     # Underwear & clothing
-    - map: [ "enum.HumanoidVisualLayers.UndergarmentBottom" ]
-    - map: [ "enum.HumanoidVisualLayers.UndergarmentTop" ]
-    - map: ["jumpsuit"]
+    #- map: [ "enum.HumanoidVisualLayers.UndergarmentBottom" ] # RS14
+    #- map: [ "enum.HumanoidVisualLayers.UndergarmentTop" ] # RS14
 
     # Extremities
     - map: ["enum.HumanoidVisualLayers.LFoot"]
@@ -29,11 +28,18 @@
     - map: ["enum.HumanoidVisualLayers.LHand"]
     - map: ["enum.HumanoidVisualLayers.RHand"]
 
+    # Equipped underwear
+    - map: [ "socks" ] # RS14
+    - map: [ "underwearb" ] # RS14
+    - map: [ "underweart" ] # RS14
+    - map: ["jumpsuit"] # RS14
+
     # Stuff that goes over the body but below equipment
     - map: ["enum.HumanoidVisualLayers.Overlay"]
 
     # More equipment
     - map: [ "gloves" ]
+    - map: ["finger"] # RS14
     - map: [ "shoes" ]
     - map: [ "ears" ]
     - map: [ "eyes" ]
