@@ -1,4 +1,4 @@
-﻿# Underwear
+# Underwear
 - type: loadout
   id: UnderwearBottomBoxersBrigmedic
   effects:
@@ -27,3 +27,83 @@
   id: UnderwearSocksBrigmedic
   equipment:
     socks: ClothingUnderwearSocksBrigmedic
+
+- type: loadout
+  id: BrigmedicHat
+  equipment:
+    head: ClothingHeadHatBeretBrigmedic
+
+- type: loadout
+  id: BrigmedicGasSecurity
+  equipment:
+    mask: ClothingMaskGasSecurity
+
+- type: loadout
+  id: BrigmedicMedicalSecurity
+  equipment:
+    mask: ClothingMaskBreathMedicalSecurity
+
+- type: loadout
+  id: BrigmedicJumpsuit
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitBrigmedic
+
+- type: loadout
+  id: BrigmedicJumpskirt
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtBrigmedic
+
+- type: loadout
+  id: BrigmedicGlovesLatex
+  equipment:
+    gloves: ClothingHandsGlovesLatex
+
+- type: loadout
+  id: BrigmedicGlovesNitrile
+  equipment:
+    gloves: ClothingHandsGlovesNitrile
+
+- type: loadout
+  id: BrigmedicGlovesBlack
+  equipment:
+    gloves: ClothingHandsGlovesColorBlack
+
+- type: loadout
+  id: BrigmedicBackpack
+  equipment:
+    back: ClothingBackpackBrigmedic
+
+- type: loadout
+  id: BrigmedicSatchel
+  equipment:
+    back: ClothingBackpackSatchelBrigmedic
+
+- type: loadout
+  id: BrigmedicDuffel
+  equipment:
+    back: ClothingBackpackDuffelBrigmedic
+
+- type: loadout
+  id: BrigmedicCoatAMG
+  equipment:
+    outerClothing: ClothingOuterCoatAMG
+
+- type: loadout
+  id: BrigmedicOuterWinterSec
+  equipment:
+    outerClothing: ClothingOuterWinterSec
+
+- type: loadout
+  id: BrigmedicVestArmor
+  equipment:
+    outerClothing: ClothingOuterVestArmorMedSec
+
+- type: loadout
+  id: BrigmedicCombat
+  equipment:
+    shoes: ClothingShoesBootsCombatFilled
+
+- type: loadout
+  id: BrigmedicWinterSec
+  equipment:
+    shoes: ClothingShoesBootsWinterSecFilled
