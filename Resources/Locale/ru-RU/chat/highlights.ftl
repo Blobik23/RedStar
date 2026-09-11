@@ -3,15 +3,15 @@ highlights-captain = Капитан, "кеп", "кэп", "мостик", "ком
 highlights-headofpersonnel = глава персонала, "гп", сервис, мостик, "командование"
 highlights-chiefengineer = старший инженер, "си", инженер, "инж", "мостик", "командование"
 highlights-chiefmedicalofficer = главный врач, главврач, "гв", медблок, медбей, "мед", "мостик", "командование"
-highlights-headofsecurity = глава службы безопасности, "гсб", служба безопасности, "сб", "мостик", "командование"
+highlights-headofsecurity = начальник милиции, "нм", милиция, "сб", "мостик", "командование"
 highlights-quartermaster = квартирмейстер, "км", "кма", карго, снабжени, "мостик", "командование"
 highlights-researchdirector = научный руководитель, научрук, "нр", наука, "рнд", "нио", "мостик", "командование"
 
 # Security
-highlights-detective = детектив, "дек", служб, "сб"
-highlights-securitycadet = офицер, кадет, служба безопасности, "сб"
-highlights-securityofficer = офицер, служба безопасности, "сб"
-highlights-warden = смотрител, варден, служба безопасности, "сб"
+highlights-detective = детектив, "дек", служб, "сб", следак, следователь
+highlights-securitycadet = офицер, кадет, милиция, "сб"
+highlights-securityofficer = офицер, милицияи, "сб"
+highlights-warden = смотрител, варден, милиция, "сб"
 
 # Cargo
 highlights-cargotechnician = грузчик, карго, снабжени
