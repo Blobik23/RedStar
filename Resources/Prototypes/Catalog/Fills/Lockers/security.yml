@@ -73,8 +73,6 @@
     - id: FlashlightSeclite
       prob: 0.8
     - id: WeaponDisabler
-    - id: SecurityBola
-      amount: 2
     - id: ClothingUniformJumpsuitSecGrey
       prob: 0.3
     - id: ClothingHeadHelmetBasic
@@ -119,8 +117,10 @@
     - id: BoxSterileMask
     - id: ClothingHeadHatBeretBrigmedic
     - id: ClothingOuterCoatAMG
-    - id: ClothingUniformJumpsuitBrigmedic
-    - id: ClothingUniformJumpskirtBrigmedic
+    #- id: ClothingUniformJumpsuitBrigmedic
+    #- id: ClothingUniformJumpskirtBrigmedic
+    - id: ClothingBeltMedicalFilled # RS14
+    - id: ClothingEyesHudMedical # RS14
     - id: ClothingUniformJumpskirtOfLife
       prob: 0.1
     - id: MedkitFilled

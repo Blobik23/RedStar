@@ -4,11 +4,11 @@ id-card-access-level-head-of-personnel = Глава персонала
 id-card-access-level-cryogenics = Криогеника
 id-card-access-level-emergency-shuttle-repeal = Э.Шаттл Отозвать Все
 
-id-card-access-level-head-of-security = Глава службы безопасности
-id-card-access-level-security = Служба безопасности
+id-card-access-level-head-of-security = Начальник милиции
+id-card-access-level-security = Милиция
 id-card-access-level-armory = Оружейная
 id-card-access-level-brig = Бриг
-id-card-access-level-detective = Детектив
+id-card-access-level-detective = Следователь
 id-card-access-level-genpop-enter = Общий блок Вход
 id-card-access-level-genpop-leave = Общий блок Выход
 
@@ -44,7 +44,7 @@ id-card-access-level-external = Внешний
 id-card-access-level-nuclear-operative = Ядерный оперативник
 id-card-access-level-syndicate-agent = Агент Синдиката
 
-id-card-access-level-central-command = Центральное командование
+id-card-access-level-central-command = Генеральный штаб
 
 id-card-access-level-wizard = Волшебник
 
