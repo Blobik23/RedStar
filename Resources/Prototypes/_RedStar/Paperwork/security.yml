@@ -1,0 +1,15 @@
+﻿# NanoTrasen
+- type: paperwork
+  id: NTSecurity0
+  category: NTSecurity
+  name: paperwork-form-title-security-0
+  template: "/Paperwork/default.xml"
+  paperPrototype: PaperPrintedNTSecurity
+
+# USSP
+- type: paperwork
+  id: USSPSecurity0
+  category: USSPSecurity
+  name: paperwork-form-title-security-0
+  template: "/Paperwork/default.xml"
+  paperPrototype: PaperPrintedUSSPSecurity

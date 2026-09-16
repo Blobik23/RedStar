@@ -350,3 +350,6 @@ ghost-role-information-wizard-desc = ТЫ ВОЛШЕБНИК! Покажи ст�
 
 ghost-role-information-emotional-support-scurret-name = Слизенёк эмоциональной поддержки
 ghost-role-information-emotional-support-scurret-description = Поддерживайте экипаж, будьте очаровательными, часто говорите "ва".
+
+ghost-role-information-space-changeling-name = Взрослый мозговой червь
+ghost-role-information-space-changeling-description = Взрослый мозговой червь генокрада, жаждущий поглощать членов экипажа и скрываться на станции. Этот червь особенно хрупок, поэтому ему необходимо найти мёртвое тело, чтобы принять гуманоидный облик.

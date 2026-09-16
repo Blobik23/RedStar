@@ -1,0 +1,5 @@
+﻿- type: paperwork
+  id: StationGoal
+  name: station-goal-title
+  template: "/Paperwork/StationGoal/default.xml"
+  paperPrototype: PaperPrintedStationGoal

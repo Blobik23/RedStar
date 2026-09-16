@@ -1,9 +1,15 @@
 ent-MobLing = Урист МакКрад
     .desc = { ent-MobHuman.desc }
     .suffix = Неантаг
+ent-MobHeadSlugBase = { ent-SimpleSpaceMobBase }
+    .desc = { ent-SimpleSpaceMobBase.desc }
+    .suffix = { ent-SimpleSpaceMobBase.suffix }
 ent-MobHeadSlug = мозговой червь
     .desc = Небольшое, похожее на слизня существо с большой, зияющей пастью. Оно покрыто густой, слизистой субстанцией.
-    .suffix = { ent-SimpleSpaceMobBase.suffix }
+    .suffix = { ent-MobHeadSlugBase.suffix }
+ent-MobHeadSlugElder = взрослый мозговой червь
+    .desc = Прожив несколько лет, мозговые черви достигают этой стадии и обретают способность путешествовать в космосе, продолжая цикл размножения генокрада.
+    .suffix = { ent-MobHeadSlugBase.suffix }
 ent-ChangelingFleshClothingAbilityStoreDummy = { "" }
     .desc = { "" }
 ent-ChangelingVoiceMimicDummy = { "" }
