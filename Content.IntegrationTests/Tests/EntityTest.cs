@@ -211,6 +211,16 @@ namespace Content.IntegrationTests.Tests
                         sEntMan.DeleteEntity(uid);
                 }
 
+                // RS14-start
+                // Some entities play transient audio during shutdown/deletion.
+                // These are created after the entity snapshot above, so clean them up separately.
+                var audioEntities = Query<AudioComponent>(sEntMan).ToList();
+                foreach (var (uid, _) in audioEntities)
+                {
+                    sEntMan.DeleteEntity(uid);
+                }
+                // RS14-end
+
                 Assert.That(sEntMan.EntityCount, Is.Zero);
             });
         }
