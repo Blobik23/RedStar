@@ -24,6 +24,7 @@ using Robust.Shared.Serialization;
 using Robust.Shared.Utility;
 using Robust.Shared;
 using YamlDotNet.RepresentationModel;
+using Content.Shared._Corvax.TTS;
 
 namespace Content.Shared.Preferences
 {
@@ -90,6 +91,9 @@ namespace Content.Shared.Preferences
         [DataField]
         public ProtoId<SpeciesPrototype> Species { get; set; } = DefaultSpecies;
 
+        [DataField] //Corvax-TTS
+        public ProtoId<TTSVoicePrototype> TTSVoice { get; set; } = TTSVoiceHelper.DefaultVoice;
+
         [DataField]
         public int Age { get; set; } = 18;
 
@@ -140,6 +144,7 @@ namespace Content.Shared.Preferences
             string name,
             string flavortext,
             string species,
+            ProtoId<TTSVoicePrototype> ttsVoice, // Corvax-TTS
             int age,
             Sex sex,
             ProtoId<EmoteSoundsPrototype> voice,
@@ -155,6 +160,7 @@ namespace Content.Shared.Preferences
             Name = name;
             FlavorText = flavortext;
             Species = species;
+            TTSVoice = ttsVoice; // Corvax-TTS
             Age = age;
             Sex = sex;
             Voice = voice;
@@ -187,6 +193,7 @@ namespace Content.Shared.Preferences
             : this(other.Name,
                 other.FlavorText,
                 other.Species,
+                other.TTSVoice,
                 other.Age,
                 other.Sex,
                 other.Voice,
@@ -309,6 +316,16 @@ namespace Content.Shared.Preferences
             return sex;
         }
 
+        // Corvax-TTS-start
+        public static ProtoId<TTSVoicePrototype> RandomTTSVoice(Sex sex, ProtoId<SpeciesPrototype> species)
+        {
+            var prototypeManager = IoCManager.Resolve<IPrototypeManager>();
+            var random = IoCManager.Resolve<IRobustRandom>();
+
+            return TTSVoiceHelper.GetRandomVoice(prototypeManager, random, sex, species);
+        }
+        // Corvax-TTS-end
+
         /// <summary>
         /// Picks a random gender using species sex;
         /// </summary>
@@ -375,6 +392,14 @@ namespace Content.Shared.Preferences
             profile.Gender = (randomizeCfg & RandomizeCfg.Gender) != 0 ? RandomGender(profile.Sex) : baseProfile.Gender;
             profile.Name = (randomizeCfg & RandomizeCfg.Name) != 0 ? RandomName(speciesProto, profile.Gender) : baseProfile.Name;
             profile.Age = (randomizeCfg & RandomizeCfg.Age) != 0 ? RandomAge(speciesProto) : baseProfile.Age;
+            // Corvax-TTS-start
+            profile.TTSVoice = baseProfile.TTSVoice;
+            if (!prototypeManager.TryIndex(profile.TTSVoice, out var ttsVoice) ||
+            !TTSVoiceHelper.CanUseVoice(ttsVoice, profile.Sex, profile.Species))
+            {
+                profile.TTSVoice = RandomTTSVoice(profile.Sex, profile.Species);
+            }
+            // Corvax-TTS-end
 
             profile.Appearance = HumanoidCharacterAppearance.Random(speciesProto, profile.Sex, randomizeCfg, baseProfile.Appearance);
 
@@ -438,6 +463,12 @@ namespace Content.Shared.Preferences
             return new(this) { Species = species };
         }
 
+        // Corvax-TTS-Start
+        public HumanoidCharacterProfile WithTTSVoice(ProtoId<TTSVoicePrototype> voice)
+        {
+            return new(this) { TTSVoice = voice };
+        }
+        // Corvax-TTS-End
 
         public HumanoidCharacterProfile WithCharacterAppearance(HumanoidCharacterAppearance appearance)
         {
@@ -640,6 +671,7 @@ namespace Content.Shared.Preferences
             if (!_traitPreferences.SequenceEqual(other._traitPreferences)) return false;
             if (!Loadouts.SequenceEqual(other.Loadouts)) return false;
             if (FlavorText != other.FlavorText) return false;
+            if (TTSVoice != other.TTSVoice) return false; // Corvax-TTS
             if (ErpStatus != other.ErpStatus) return false; // RS14
             return Appearance.Equals(other.Appearance);
         }
@@ -800,6 +832,14 @@ namespace Content.Shared.Preferences
             _traitPreferences.Clear();
             _traitPreferences.UnionWith(GetValidTraits(traits, prototypeManager));
 
+            // Corvax-TTS-start
+            if (!prototypeManager.TryIndex(TTSVoice, out var ttsVoice) ||
+                !TTSVoiceHelper.CanUseVoice(ttsVoice, Sex, Species))
+            {
+                TTSVoice = TTSVoiceHelper.GetFallbackVoice(prototypeManager, Sex, Species);
+            }
+            // Corvax-TTS-end
+
             // Checks prototypes exist for all loadouts and dump / set to default if not.
             var toRemove = new ValueList<string>();
 
@@ -902,6 +942,7 @@ namespace Content.Shared.Preferences
             hashCode.Add(Age);
             hashCode.Add((int)Sex);
             hashCode.Add(Voice);
+            hashCode.Add(TTSVoice); // Corvax-TTS
             hashCode.Add((int)Gender);
             hashCode.Add(Appearance);
             hashCode.Add((int)SpawnPriority);

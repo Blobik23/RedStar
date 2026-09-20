@@ -28,6 +28,7 @@ public sealed partial class HumanoidProfileSystem : EntitySystem
         ent.Comp.Species = profile.Species;
         ent.Comp.Voice = profile.Voice;
         ent.Comp.Sex = profile.Sex;
+        ent.Comp.TTSVoice = profile.TTSVoice; // Corvax-TTS
         Dirty(ent);
 
         var voiceChanged = new VoiceChangedEvent(ent.Comp.Voice, profile.Voice);

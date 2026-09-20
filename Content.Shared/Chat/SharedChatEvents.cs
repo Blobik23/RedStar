@@ -60,6 +60,7 @@ public sealed class EntitySpokeEvent : EntityEventArgs
 {
     public readonly EntityUid Source;
     public readonly string Message;
+    public readonly string TTSMessage; // Corvax-TTS
     public readonly string? ObfuscatedMessage; // not null if this was a whisper
 
     /// <summary>
@@ -68,10 +69,11 @@ public sealed class EntitySpokeEvent : EntityEventArgs
     /// </summary>
     public RadioChannelPrototype? Channel;
 
-    public EntitySpokeEvent(EntityUid source, string message, RadioChannelPrototype? channel, string? obfuscatedMessage)
+    public EntitySpokeEvent(EntityUid source, string message, string ttsMessage, RadioChannelPrototype? channel, string? obfuscatedMessage) // Corvax-TTS originalMessage
     {
         Source = source;
         Message = message;
+        TTSMessage = ttsMessage; // Corvax-TTS: Spec symbol sanitize
         Channel = channel;
         ObfuscatedMessage = obfuscatedMessage;
     }

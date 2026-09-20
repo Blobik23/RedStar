@@ -1,3 +1,4 @@
+using Content.Shared._Corvax.TTS;
 using Content.Shared.Speech;
 using Robust.Shared.Prototypes;
 
@@ -39,6 +40,11 @@ public sealed partial class VoiceMaskComponent : Component
     [DataField]
     public EntProtoId Action = "ActionChangeVoiceMask";
 
+    // Corvax-TTS-start
+    [DataField]
+    public ProtoId<TTSVoicePrototype> VoiceId = TTSVoiceHelper.DefaultVoice;
+    // Corvax-TTS-end
+
     /// <summary>
     ///     Reference to the action.
     /// </summary>
@@ -77,4 +83,3 @@ public sealed partial class VoiceMaskComponent : Component
     [DataField]
     public LocId TitleText = "voice-mask-name-change-window";
 }
-
