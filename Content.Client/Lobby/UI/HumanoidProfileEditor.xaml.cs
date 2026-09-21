@@ -265,7 +265,7 @@ namespace Content.Client.Lobby.UI
                 (int)PreferenceUnavailableMode.StayInLobby);
             PreferenceUnavailableButton.AddItem(
                 Loc.GetString("humanoid-profile-editor-preference-unavailable-spawn-as-overflow-button",
-                              ("overflowJob", Loc.GetString(SharedGameTicker.FallbackOverflowJobName))),
+                              ("overflowJob", Loc.GetString(GameTicker.FallbackOverflowJobName))),
                 (int)PreferenceUnavailableMode.SpawnAsOverflow);
 
             PreferenceUnavailableButton.OnItemSelected += args =>
@@ -286,6 +286,8 @@ namespace Content.Client.Lobby.UI
 
             RefreshTraits();
 
+            TabContainer.SetTabTitle(3, Loc.GetString("humanoid-profile-editor-traits-tab")); // Corvax-TTS-Edit
+
             #region Markings
 
             TabContainer.SetTabTitle(4, Loc.GetString("humanoid-profile-editor-markings-tab"));
@@ -296,6 +298,8 @@ namespace Content.Client.Lobby.UI
             #endregion Markings
 
             RefreshFlavorText();
+
+            RefreshVoiceTab(); // Corvax-TTS
 
             #region Dummy
 
@@ -386,6 +390,7 @@ namespace Content.Client.Lobby.UI
             UpdateEyePickers();
             UpdateSaveButton();
             UpdateMarkings();
+            UpdateTTSVoicesControls(); // Corvax-TTS
 
             RefreshAntags();
             RefreshJobs();

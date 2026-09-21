@@ -1,3 +1,5 @@
+using Content.Shared._RedStar.Paperwork;
+using Content.Shared.Cargo.Prototypes;
 using Robust.Shared.Prototypes;
 
 namespace Content.Server._Corvax.StationGoal;
@@ -8,8 +10,11 @@ public sealed partial class StationGoalPrototype : IPrototype
     [IdDataField]
     public string ID { get; private set; } = default!;
 
-    [DataField]
-    public string Text { get; set; } = string.Empty;
+    [DataField(required: true)]
+    public LocId Text { get; private set; }
+
+    [DataField(required: true)]
+    public ProtoId<PaperworkPrototype> Paperwork { get; private set; }
 
     [DataField]
     public int? MinPlayers;
@@ -18,8 +23,8 @@ public sealed partial class StationGoalPrototype : IPrototype
     public int? MaxPlayers;
 
     /// <summary>
-    /// Goal may require certain items to complete. These items will be delivered to the station's cargo trade post.
+    /// Cargo products and their quantities delivered when this goal is issued.
     /// </summary>
     [DataField]
-    public List<EntProtoId> Spawns = new();
+    public Dictionary<ProtoId<CargoProductPrototype>, int> StartingEquipment = [];
 }

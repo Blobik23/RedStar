@@ -1130,6 +1130,11 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("TEXT")
                         .HasColumnName("species");
 
+                    b.Property<string>("TTSVoice")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("ttsvoice");
+
                     b.Property<string>("Voice")
                         .HasColumnType("TEXT")
                         .HasColumnName("voice");

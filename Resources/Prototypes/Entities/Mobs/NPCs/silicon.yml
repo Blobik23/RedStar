@@ -2,7 +2,7 @@
 - type: entity
   save: false
   abstract: true
-  parent: BaseMob
+  parent: [BaseMob, TTS_speaker] # Corvax-TTS
   id: MobRobotic
   components:
   - type: Reactive
@@ -51,6 +51,8 @@
   - type: ProtectedFromStepTriggers
   - type: NoSlip
   - type: Insulated
+  - type: TTS # Corvax-TTS
+    voice: Taskmaster
 
 # Used for bots
 - type: entity

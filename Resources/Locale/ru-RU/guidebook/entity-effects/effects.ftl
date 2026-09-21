@@ -571,6 +571,22 @@ entity-effect-guidebook-plant-seeds-remove =
         *[other] убирают
     } семена из растения
 
+entity-effect-guidebook-plant-change-trait =
+    { $chance ->
+        [1] { $change ->
+            [Add] Добавляет растению признак «{ $trait }»
+            [Remove] Удаляет у растения признак «{ $trait }»
+            [Toggle] Переключает у растения признак «{ $trait }»
+            *[other] Изменяет у растения признак «{ $trait }»
+        }
+        *[other] { $change ->
+            [Add] Добавляют растению признак «{ $trait }»
+            [Remove] Удаляют у растения признак «{ $trait }»
+            [Toggle] Переключают у растения признак «{ $trait }»
+            *[other] Изменяют у растения признак «{ $trait }»
+        }
+    }
+
 entity-effect-guidebook-plant-mutate-exude-gasses =
     { $chance ->
         [1] Мутирует

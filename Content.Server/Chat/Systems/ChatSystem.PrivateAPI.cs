@@ -1,4 +1,5 @@
 using System.Linq;
+using Content.Shared._Corvax.TTS;
 using Content.Shared.Chat;
 using Content.Shared.Database;
 using Content.Shared.IdentityManagement;
@@ -23,9 +24,10 @@ public sealed partial class ChatSystem
     {
         if (!_actionBlocker.CanSpeak(source) && !ignoreActionBlocker)
             return;
-
-        var message = TransformSpeech(source, originalMessage);
-
+        // Corvax-TTS-start
+        var ttsMessage = TransformSpeech(source, originalMessage);
+        var message = TTSSpeechStress.Strip(ttsMessage);
+         // Corvax-TTS-end
         if (message.Length == 0)
             return;
 
@@ -47,7 +49,7 @@ public sealed partial class ChatSystem
                 speech = proto;
         }
 
-        name = FormattedMessage.EscapeText(name);
+        name = ChatNameLinks ? $"[textlink=\"{FormattedMessage.EscapeStringParameter(name)}\" entity=\"{GetNetEntity(source)}\" entitynamecolor=\"true\"]" : FormattedMessage.EscapeText(name);
 
         var wrappedMessage = Loc.GetString(speech.Bold ? "chat-manager-entity-say-bold-wrap-message" : "chat-manager-entity-say-wrap-message",
             ("entityName", name),
@@ -58,7 +60,7 @@ public sealed partial class ChatSystem
 
         SendInVoiceRange(ChatChannel.Local, message, wrappedMessage, source, range);
 
-        var ev = new EntitySpokeEvent(source, message, null, null);
+        var ev = new EntitySpokeEvent(source, message, ttsMessage, null, null); // Corvax-TTS
         RaiseLocalEvent(source, ev, true);
 
         // To avoid logging any messages sent by entities that are not players, like vendors, cloning, etc.
@@ -96,11 +98,12 @@ public sealed partial class ChatSystem
     {
         if (!_actionBlocker.CanSpeak(source) && !ignoreActionBlocker)
             return;
-
-        var message = TransformSpeech(source, FormattedMessage.RemoveMarkupOrThrow(originalMessage));
+        // Corvax-TTS-start
+        var ttsMessage = TransformSpeech(source, FormattedMessage.RemoveMarkupOrThrow(originalMessage));
+        var message = TTSSpeechStress.Strip(ttsMessage);
         if (message.Length == 0)
             return;
-
+        // Corvax-TTS-end
         var obfuscatedMessage = ObfuscateMessageReadability(message, 0.2f);
 
         // get the entity's name by visual identity (if no override provided).
@@ -117,7 +120,7 @@ public sealed partial class ChatSystem
             RaiseLocalEvent(source, nameEv);
             name = nameEv.VoiceName;
         }
-        name = FormattedMessage.EscapeText(name);
+        name = ChatNameLinks ? $"[textlink=\"{FormattedMessage.EscapeStringParameter(name)}\" entity=\"{GetNetEntity(source)}\" entitynamecolor=\"true\"]" : FormattedMessage.EscapeText(name);
 
         var wrappedMessage = Loc.GetString("chat-manager-entity-whisper-wrap-message",
             ("entityName", name), ("message", FormattedMessage.EscapeText(message)));
@@ -152,7 +155,7 @@ public sealed partial class ChatSystem
 
         _replay.RecordServerMessage(new ChatMessage(ChatChannel.Whisper, message, wrappedMessage, GetNetEntity(source), null, MessageRangeHideChatForReplay(range)));
 
-        var ev = new EntitySpokeEvent(source, message, channel, obfuscatedMessage);
+        var ev = new EntitySpokeEvent(source, message, ttsMessage, channel, obfuscatedMessage); // Corvax-TTS
         RaiseLocalEvent(source, ev, true);
         if (!hideLog)
             if (originalMessage == message)
@@ -213,7 +216,7 @@ public sealed partial class ChatSystem
     private void SendLOOC(EntityUid source, ICommonSession player, string message, bool hideChat)
     {
         var name = FormattedMessage.EscapeText(Identity.Name(source, EntityManager));
-
+        name = ChatNameLinks ? $"[textlink=\"{FormattedMessage.EscapeStringParameter(player.Channel.UserName)}\" entity=\"{GetNetEntity(source)}\" color=\"{ChatChannel.LOOC.TextColor().ToHex()}\"]": FormattedMessage.EscapeText(name); // Corvax-TTS
         if (_adminManager.IsAdmin(player))
         {
             if (!_adminLoocEnabled) return;
@@ -238,18 +241,19 @@ public sealed partial class ChatSystem
             return;
 
         var clients = GetDeadChatClients();
-        var playerName = Name(source);
         string wrappedMessage;
         if (_adminManager.IsAdmin(player))
         {
+            var userName = ChatNameLinks ? $"[textlink=\"{FormattedMessage.EscapeStringParameter(player.Channel.UserName)}\" entity=\"{GetNetEntity(source)}\" color=\"{ChatChannel.Dead.TextColor().ToHex()}\"]" : FormattedMessage.EscapeText(player.Channel.UserName);
             wrappedMessage = Loc.GetString("chat-manager-send-admin-dead-chat-wrap-message",
                 ("adminChannelName", Loc.GetString("chat-manager-admin-channel-name")),
-                ("userName", player.Channel.UserName),
+                ("userName", (userName)),
                 ("message", FormattedMessage.EscapeText(message)));
             _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Admin dead chat from {source}: {message}");
         }
         else
         {
+            var playerName = ChatNameLinks ? $"[textlink=\"{FormattedMessage.EscapeStringParameter(Name(source))}\" entity=\"{GetNetEntity(source)}\" color=\"{ChatChannel.Dead.TextColor().ToHex()}\"]" : FormattedMessage.EscapeText(Name(source));
             wrappedMessage = Loc.GetString("chat-manager-send-dead-chat-wrap-message",
                 ("deadChannelName", Loc.GetString("chat-manager-dead-channel-name")),
                 ("playerName", (playerName)),

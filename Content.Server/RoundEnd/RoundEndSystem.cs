@@ -11,6 +11,7 @@ using Content.Server.Shuttles.Systems;
 using Content.Server.Station.Systems;
 using Content.Shared.Database;
 using Content.Shared.GameTicking;
+using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Configuration;
 using Robust.Shared.Player;
@@ -33,11 +34,11 @@ namespace Content.Server.RoundEnd
         [Dependency] private IChatManager _chatManager = default!;
         [Dependency] private IGameTiming _gameTiming = default!;
         [Dependency] private ChatSystem _chatSystem = default!;
-        [Dependency] private GameTicker _gameTicker = default!;
+        [Dependency] private ServerGameTicker _gameTicker = default!;
         [Dependency] private DeviceNetworkSystem _deviceNetworkSystem = default!;
         [Dependency] private EmergencyShuttleSystem _shuttle = default!;
         [Dependency] private SharedAudioSystem _audio = default!;
-        [Dependency] private StationSystem _stationSystem = default!;
+        [Dependency] private ServerStationSystem _stationSystem = default!;
 
         public TimeSpan DefaultCooldownDuration { get; set; } = TimeSpan.FromSeconds(30);
 
@@ -97,7 +98,7 @@ namespace Content.Server.RoundEnd
         }
 
         /// <summary>
-        ///     Attempts to get the MapUid of the station using <see cref="StationSystem.GetLargestGrid"/>
+        ///     Attempts to get the MapUid of the station using <see cref="ServerStationSystem.GetLargestGrid"/>
         /// </summary>
         public EntityUid? GetStation()
         {
@@ -208,7 +209,8 @@ namespace Content.Server.RoundEnd
                 null,
                 Color.Gold);
 
-            _audio.PlayGlobal("/Audio/Announcements/shuttlecalled.ogg", Filter.Broadcast(), true);
+            if (!_autoCalledBefore) _audio.PlayGlobal(new SoundPathSpecifier("/Audio/_Corvax/Announcements/shuttlecalled.ogg"), Filter.Broadcast(), true, AudioParams.Default.AddVolume(-4)); // RS14
+            else _audio.PlayGlobal(new SoundPathSpecifier("/Audio/_Corvax/Announcements/crew_s_called.ogg"), Filter.Broadcast(), true, AudioParams.Default.AddVolume(-4)); // RS14
 
             LastCountdownStart = _gameTiming.CurTime;
             ExpectedCountdownEnd = _gameTiming.CurTime + countdownTime;
@@ -258,7 +260,7 @@ namespace Content.Server.RoundEnd
             _chatSystem.DispatchGlobalAnnouncement(Loc.GetString("round-end-system-shuttle-recalled-announcement"),
                 Loc.GetString("round-end-system-shuttle-sender-announcement"), false, colorOverride: Color.Gold);
 
-            _audio.PlayGlobal("/Audio/Announcements/shuttlerecalled.ogg", Filter.Broadcast(), true);
+            _audio.PlayGlobal(new SoundPathSpecifier("/Audio/_Corvax/Announcements/shuttlerecalled.ogg"), Filter.Broadcast(), true, AudioParams.Default.AddVolume(-4)); // RS14
 
             LastCountdownStart = null;
             ExpectedCountdownEnd = null;
@@ -380,8 +382,8 @@ namespace Content.Server.RoundEnd
             {
                 if (!_shuttle.EmergencyShuttleArrived && ExpectedCountdownEnd is null)
                 {
+                    _autoCalledBefore = true; // Corvax-Announcements: Move before call RequestRoundEnd to play correct announcement sound type
                     RequestRoundEnd(checkCooldown: false, text: "round-end-system-shuttle-auto-called-announcement");
-                    _autoCalledBefore = true;
                 }
 
                 // Always reset auto-call in case of a recall.
@@ -393,23 +395,5 @@ namespace Content.Server.RoundEnd
     public sealed class RoundEndSystemChangedEvent : EntityEventArgs
     {
         public static RoundEndSystemChangedEvent Default { get; } = new();
-    }
-
-    public enum RoundEndBehavior : byte
-    {
-        /// <summary>
-        /// Instantly end round
-        /// </summary>
-        InstantEnd,
-
-        /// <summary>
-        /// Call shuttle with custom announcement
-        /// </summary>
-        ShuttleCall,
-
-        /// <summary>
-        /// Do nothing
-        /// </summary>
-        Nothing
     }
 }
