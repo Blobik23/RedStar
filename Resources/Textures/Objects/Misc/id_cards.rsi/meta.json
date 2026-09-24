@@ -94,15 +94,6 @@
             "directions": 4
         },
         {
-            "name": "stripe_bottom"
-        },
-        {
-            "name": "stripe_clown"
-        },
-        {
-            "name": "stripe_top"
-        },
-        {
             "name": "wizard"
         }
     ]
